@@ -9,17 +9,23 @@ if (typeof(serverExeProcessInfo) != "undefined") {
     serverExeProcessInfo.kill();
 }
 
+/*
+// PHP 5.4 から無条件で使える(PHPそのまま記載してよいので強力)
 let workdir = `G:\\あいうえお`
 let command = `php.exe -S localhost:${port} -t "${workdir}"`;
+*/
 
-/*
+// python 3.7 以上なら無条件で使える
 let workdir = `G:\あいうえお`;
 let command = `python -m http.server --bind localhost ${port}`;
-*/
+
+
+// node の http-server 等は、バッチ.cmd を経由してしまうため、hidemaru.runProcessは自動でデーモンを終了できない。
+
 
 console.log(command);
 var serverExeProcessInfo = hidemaru.runProcess(command, workdir, "stdio", "utf8");
-    console.log(port);
+
     browserpanecommand(
     {
         target: "_each", 
