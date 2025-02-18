@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\repogitory\\hm_available_port\\HmAvailablePort\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmAvailablePort\\HmAvailablePort.csproj|g:\\repogitory\\hm_available_port\\hmavailableport\\hmavailableport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmAvailablePort\\HmAvailablePort.csproj|solutionrelative:hmavailableport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|HmAvailablePort||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
@@ -19,19 +23,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "G:\\repogitory\\hm_available_port\\HmAvailablePort\\HmAvailablePort\\Program.cs",
+              "RelativeDocumentMoniker": "HmAvailablePort\\Program.cs",
+              "ToolTip": "G:\\repogitory\\hm_available_port\\HmAvailablePort\\HmAvailablePort\\Program.cs",
+              "RelativeToolTip": "HmAvailablePort\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-18T15:01:01.482Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\master\\source\\repos\\HmAvilablePort\\HmAvilablePort\\Program.cs",
               "ToolTip": "C:\\Users\\master\\source\\repos\\HmAvilablePort\\HmAvilablePort\\Program.cs",
@@ -40,7 +53,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "HmAvailablePort",
               "DocumentMoniker": "G:\\repogitory\\hm_available_port\\HmAvailablePort\\HmAvailablePort\\HmAvailablePort.csproj",
               "RelativeDocumentMoniker": "HmAvailablePort\\HmAvailablePort.csproj",
@@ -49,6 +62,10 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-02-18T10:11:48.71Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
