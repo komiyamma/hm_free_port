@@ -10,15 +10,15 @@ function findAvailablePortAndExecFunc(callBackFunc) {
 
     function readAllAsync(outline) {
         try {
-	        var match = /PORT:(\d+)/.exec(outline);
-	        if (match) {
-	            var port = parseInt(match[1], 10);
-	            if (callBackFunc) {
-	                callBackFunc(port);
-	            }
-	        } else {
-	            console.log("no match");
-	        }
+            var match = /^(\d+)/.exec(outline);
+            if (match) {
+                var port = parseInt(match[1], 10);
+                if (callBackFunc) {
+                    callBackFunc(port);
+                }
+            } else {
+                    callBackFunc(0);
+            }
         } catch(e) {
         } finally {
             if (findAvailablePortProcessInfo) {

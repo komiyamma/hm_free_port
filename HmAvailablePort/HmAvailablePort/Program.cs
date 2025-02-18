@@ -31,7 +31,7 @@ namespace HmAvailablePort
         static int Main(string[] args)
         {
             int port = AvailablePort();
-            Console.WriteLine("PORT:" + port);
+            Console.WriteLine(port);
             if (port > 0) { return 0; } else { return 1; }
         }
     }

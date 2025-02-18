@@ -47,6 +47,6 @@ int AvailablePort() {
 
 int main() {
     int port = AvailablePort();
-    std::cout << "PORT: " << port << std::endl;
+    std::cout << port << std::endl;
     return (port > 0) ? 0 : 1;
 }
