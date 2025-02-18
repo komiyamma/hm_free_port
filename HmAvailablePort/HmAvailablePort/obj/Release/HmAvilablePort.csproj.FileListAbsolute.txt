@@ -1,0 +1,7 @@
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\bin\Release\HmAvilablePort.exe.config
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\bin\Release\HmAvilablePort.exe
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\bin\Release\HmAvilablePort.pdb
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvilablePort.csproj.AssemblyReference.cache
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvilablePort.csproj.CoreCompileInputs.cache
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvilablePort.exe
+C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvilablePort.pdb

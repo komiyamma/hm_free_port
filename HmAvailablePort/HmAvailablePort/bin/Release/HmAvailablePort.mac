@@ -1,0 +1,36 @@
+﻿jsmode "WebView2\\" + currentmacrofilename;
+
+execjs currentmacrodirectory + "\\HmAvailablePort.js";
+
+js {
+debuginfo(2);
+function onFindPort(port) {
+if (typeof(serverExeProcessInfo) != "undefined") {
+    serverExeProcessInfo.kill();
+}
+
+let workdir = `G:\\あいうえお`
+let command = `php.exe -S localhost:${port} -t "${workdir}"`;
+
+/*
+let workdir = `G:\あいうえお`;
+let command = `python -m http.server --bind localhost ${port}`;
+*/
+
+console.log(command);
+var serverExeProcessInfo = hidemaru.runProcess(command, workdir, "stdio", "utf8");
+    console.log(port);
+    browserpanecommand(
+    {
+        target: "_each", 
+        url:`http://localhost:${port}/a.html`,
+        show:1,
+        size: 500,
+        initialize:"async"
+    }
+    );
+}
+
+findAvailablePortAndExecFunc(onFindPort);
+
+}
