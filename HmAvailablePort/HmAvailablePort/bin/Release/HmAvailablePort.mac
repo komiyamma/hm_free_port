@@ -15,13 +15,20 @@ let workdir = `G:\\あいうえお`
 let command = `php.exe -S localhost:${port} -t "${workdir}"`;
 */
 
+/*
 // python 3.7 以上なら無条件で使える
-let workdir = `G:\あいうえお`;
-let command = `python -m http.server --bind localhost ${port}`;
+let workdir = `G:\\あいうえお`;
+let command = `python.exe -m http.server --bind localhost ${port}`;
+*/
 
-
-// node の http-server 等は、バッチ.cmd を経由してしまうため、hidemaru.runProcessは自動でデーモンを終了できない。
-
+/*
+// 「npm install -g http-server」をしていること
+// node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
+let workdir = `G:\\あいうえお`;
+let oShell = createObject("WScript.Shell")
+let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%");
+let command = `node.exe "${appDataPath}\\npm\\node_modules\\http-server\\bin\\http-server" "${workdir}" -p ${port}`;
+*/
 
 console.log(command);
 var serverExeProcessInfo = hidemaru.runProcess(command, workdir, "stdio", "utf8");
