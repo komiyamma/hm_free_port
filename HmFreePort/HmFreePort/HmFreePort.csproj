@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>HmAvailablePort</RootNamespace>
-    <AssemblyName>HmAvailablePort</AssemblyName>
+    <RootNamespace>HmFreePort</RootNamespace>
+    <AssemblyName>HmFreePort</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

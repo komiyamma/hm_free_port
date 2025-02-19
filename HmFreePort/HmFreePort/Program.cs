@@ -4,15 +4,14 @@ using System;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 
-namespace HmAvailablePort
+namespace HmFreePort
 {
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)] // これは必須
     [Guid("B4280D3B-413D-4630-88A5-7AA68B562226")] // GUIDはそれぞれのclassで生成しなおすこと。
 
-    public class HmAvailablePort
+    public class HmFreePort
     {
-        List<int> portsInUse;
 
         public int Port
         {
@@ -48,10 +47,9 @@ namespace HmAvailablePort
         }
 
 
-
         static int Main(string[] args)
         {
-            HmAvailablePort ap = new HmAvailablePort();
+            HmFreePort ap = new HmFreePort();
             int port = ap.Port;
             Console.WriteLine(port);
             if (port > 0) { return 0; } else { return 1; }

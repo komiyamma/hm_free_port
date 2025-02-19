@@ -33,7 +33,7 @@ std::vector<int> GetUsedPorts() {
     return usedPorts;
 }
 
-int AvailablePort() {
+int getFreePort() {
     std::vector<int> portsInUse = GetUsedPorts();
 
     for (int port = 49152; port <= 65535; ++port) {
