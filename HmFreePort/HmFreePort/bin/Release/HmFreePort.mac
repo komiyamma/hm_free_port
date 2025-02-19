@@ -32,11 +32,13 @@ function main() {
         return;
     }
 
+   
     browserpanecommand(
         {
             target: "_each",
-            url: `http://localhost:${serverPort}/index.html` + `?nocache=${tickcount()}`, // nocache以降はキャッシュ表示防止のため
+            url: `http://localhost:${serverPort}/indexb.html`, 
             show: 1,
+            watch: true,
             size: 500,
             initialize: "async"
         }
@@ -56,7 +58,8 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
     switch (serverType) {
         case "php": {
 
-            // PHP 5.4 から無条件で使える。
+            // PHP(php.exe, php8.dll, php.ini)さえあれば無条件で使えると考えてよい。
+            // 一番単純で間違いがなく、キャッシュも適切、エンコードもデフォがutf8、安定感が半端ない。
             let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
@@ -64,7 +67,9 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
         case "python": {
 
-            // python 3.7 以上なら無条件で使える。( charset のデフォルうとがutf8じゃないので、日本人には扱いにくい。BOMをつければいけるが...)
+            // python 3.7 以上なら無条件で使える。
+            // charset のデフォルトがutf8じゃないので、日本人には扱いにくい。HTMLのcharset設定したりもCSSもJavaScriptもBOMをつければいけるが、
+            // 世界はこれらのファイルにBOM付ける文化になってないのでオススメできない
             let command = `python.exe -m http.server --bind localhost ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
@@ -73,7 +78,8 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "node": {
 
             // 「npm install -g http-server」をしていること。
-            // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
+            // コンテンツキャッシュが不適切なため、開発中にhtmlを更新しても、必ずキャッシュの方が表示されてしまい、
+            // 「更新」しないと最新ファイル内容が反映されないので向いていない。HTML側のno-cache指定すら無視してしまう。
             let workdir = documentRoot;
             let oShell = createObject("WScript.Shell")
             let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
