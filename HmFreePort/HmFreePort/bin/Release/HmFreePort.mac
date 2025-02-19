@@ -20,7 +20,7 @@ function main() {
 
     const command = launchServerCommand(
         {
-            serverType: "php",
+            serverType: "node",
             serverPort: serverPort,
             documentRoot: String.raw`C:\あいうえお` // ドキュメントルートのフォルダ指定
         }
@@ -36,7 +36,7 @@ function main() {
     browserpanecommand(
         {
             target: "_each",
-            url: `http://localhost:${serverPort}/indexb.html`, 
+            url: `http://localhost:${serverPort}/index.html`, 
             show: 1,
             watch: true,
             size: 500,
@@ -56,21 +56,12 @@ function getFreePort() {
 function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
     switch (serverType) {
+
         case "php": {
 
             // PHP(php.exe, php8.dll, php.ini)さえあれば無条件で使えると考えてよい。
-            // 一番起動が速く、間違いがなく、キャッシュも適切、エンコードもデフォがutf8、安定感が抜群。.php ならPHPが動作するのもメリット。
+            // 一番起動が速く、間違いがなく、キャッシュのなしで開発やローカル目的には適切、エンコードもデフォがutf8、安定感が抜群。.php ならPHPが動作するのもメリット。
             let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
-            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
-            return command;
-        }
-
-        case "python": {
-
-            // python 3.7 以上なら無条件で使える。
-            // charset のデフォルトがutf8じゃないので、日本人(英語圏以外の人)には扱いにくい。HTMLのcharset設定したりもCSSもJavaScriptもBOMをつければいけるが、
-            // 世界はこれらのファイルにBOM付ける文化になってないのでオススメできない
-            let command = `python.exe -m http.server --bind localhost ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
         }
@@ -78,15 +69,27 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "node": {
 
             // 「npm install -g http-server」をしていること。
-            // コンテンツキャッシュが不適切なため、開発中にhtmlを更新しても、必ずキャッシュの方が表示されてしまい、
-            // 「更新」しないと最新ファイル内容が反映されないので向いていない。HTML側のno-cache指定すら無視してしまう。
+            // デフォルトだとコンテンツキャッシュが長いため、開発用途ならキャッシュなしにする。(-c-1の部分)
+            // 基本的にローカルで動作するならキャッシュなしで十分だと思う。
+            // １程度はキャッシュもたせたいなら、-c60 など。
             let workdir = documentRoot;
             let oShell = createObject("WScript.Shell")
             let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
-            let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" "${workdir}" -p ${serverPort}`;
+            let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" -c-1 "${workdir}" -p ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
         }
+
+        case "python": {
+
+            // python 3.7 以上なら無条件で使える。
+            // charset のデフォルトがutf8じゃないので、日本人(英語圏以外の人)には扱いにくい。「HTMLのcharsetを設定(あるいはBOM)」したりも「CSSもJavaScriptもBOM」
+            // をつければいけるが、世界はこれらのファイルにBOM付ける文化になってないのでオススメできない
+            let command = `python.exe -m http.server --bind localhost ${serverPort}`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
+
     }
 
     return "";
