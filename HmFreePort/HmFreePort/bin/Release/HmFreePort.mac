@@ -20,7 +20,7 @@ function main() {
 
     const [command, documentRoot] = launchServerCommand(
         {
-            serverType: "python",
+            serverType: "php",
             serverPort: serverPort,
             documentRoot: String.raw`C:\あいうえお` // ドキュメントルートのフォルダ指定
         }
@@ -68,7 +68,7 @@ function launchServerCommand(props) {
 
             case "python": {
 
-                // python 3.7 以上なら無条件で使える。(charset の判定がデフォルトがutf8になっていないので取り扱いしにくい。BOM必要)
+                // python 3.7 以上なら無条件で使える。( charset のデフォルうとがutf8じゃないので、日本人には扱いにくい。BOMをつければいけるが...)
                 let command = `python.exe -m http.server --bind localhost ${serverPort}`;
                 serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
                 return [command, documentRoot];
