@@ -13,7 +13,6 @@ var serverExeProcessInfo; // ローカルにすると、リファレンスカウ
 
 function main() {
 
-
     serverExeProcessInfo?.kill();
 
     const serverPort = getFreePort();
@@ -32,7 +31,7 @@ function main() {
     browserpanecommand(
         {
             target: "_each",
-            url: `http://localhost:${serverPort}/index.html`,
+            url: `http://localhost:${serverPort}/index.html` + `?nocache=${tickcount()}`, // nocache以降はキャッシュ表示防止のため
             show: 1,
             size: 500,
             initialize: "async"
@@ -57,12 +56,11 @@ function launchServerCommand(props) {
 
     let { serverType, serverPort, documentRoot } = props;
 
-
     try {
         switch (serverType) {
             case "php": {
 
-                // PHP 5.4 から無条件で使える(PHPそのまま記載してよいので強力)
+                // PHP 5.4 から無条件で使える。
                 let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
                 serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
                 return [command, documentRoot];
@@ -70,7 +68,7 @@ function launchServerCommand(props) {
 
             case "python": {
 
-                // python 3.7 以上なら無条件で使える
+                // python 3.7 以上なら無条件で使える。(charset の判定がデフォルトがutf8になっていないので取り扱いしにくい。BOM必要)
                 let command = `python.exe -m http.server --bind localhost ${serverPort}`;
                 serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
                 return [command, documentRoot];
@@ -78,7 +76,7 @@ function launchServerCommand(props) {
 
             case "node": {
 
-                // 「npm install -g http-server」をしていること
+                // 「npm install -g http-server」をしていること。
                 // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
                 let workdir = documentRoot;
                 let oShell = createObject("WScript.Shell")
