@@ -6,22 +6,32 @@ js {
 
 debuginfo(2);
 
-findAvailablePortAndExecFunc(onFindPort);
+// findAvailablePortAndExecFunc(onFindPort);
 
-function onFindPort(port) {
+const currentMacroDirectory = currentmacrodirectory();
+
+main();
+
+var serverExeProcessInfo;
+
+function main() {
+
+    const port = getAvilablePort();
+    console.log(port);
+
 
     if (typeof(serverExeProcessInfo) != "undefined") {
         serverExeProcessInfo.kill();
     }
 
-    let [command, documentRoot] = createServerCommand(
+    const [command, documentRoot] = createServerCommand(
                                   {
                                       serverType:"php",
                                       port:port,
                                       documentRoot:String.raw`G:\あいうえお`
                                   }
                                   );
-    var serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+    serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
 
     console.log(command);
 
@@ -34,7 +44,20 @@ function onFindPort(port) {
         initialize:"async"
     }
     );
+
 }
+
+
+function getAvilablePort() {
+    const com = createobject( String.raw`${currentMacroDirectory}\HmAvailablePort.dll`, "HmAvailablePort.HmAvailablePort" );
+    console.log(com);
+    if (com) {
+        return com.Port;
+    }
+
+    return 0;
+}
+
 
 function createServerCommand(props) {
 

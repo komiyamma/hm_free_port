@@ -3,8 +3,8 @@ C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\bin\Release\HmAvilabl
 C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvailablePort.csproj.AssemblyReference.cache
 C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvailablePort.csproj.CoreCompileInputs.cache
 C:\Users\master\source\repos\HmAvilablePort\HmAvilablePort\obj\Release\HmAvilablePort.exe
-G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\bin\Release\HmAvailablePort.exe.config
-G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\bin\Release\HmAvailablePort.exe
+G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\bin\Release\HmAvailablePort.dll.config
+G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\bin\Release\HmAvailablePort.dll
 G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\obj\Release\HmAvailablePort.csproj.AssemblyReference.cache
 G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\obj\Release\HmAvailablePort.csproj.CoreCompileInputs.cache
-G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\obj\Release\HmAvailablePort.exe
+G:\repogitory\hm_available_port\HmAvailablePort\HmAvailablePort\obj\Release\HmAvailablePort.dll
