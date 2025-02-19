@@ -13,7 +13,7 @@ var serverExeProcessInfo; // ローカルにすると、リファレンスカウ
 
 function main() {
 
-    serverExeProcessInfo?.kill();
+    serverExeProcessInfo?.kill(); 実はPort自体が no-cacheを兼ねることが出来るので、killしない方がいいかも？ 
 
     const serverPort = getFreePort();
     console.log(serverPort);
