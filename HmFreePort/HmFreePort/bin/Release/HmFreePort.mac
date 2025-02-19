@@ -9,7 +9,7 @@ const currentMacroDirectory = currentmacrodirectory();
 
 main();
 
-var serverExeProcessInfo; // ローカルにすると、リファレンスカウンタが残ってても、いつのまにか途中でProcessInfoの中身消えるので注意ｗ
+var serverExeProcessInfo; // ローカルにすると、serverExeProcessInfo自体のリファレンスカウンタが残らなので、ProcessInfoの中身が中途半端に消えるので注意ｗ
 
 function main() {
 
@@ -18,7 +18,7 @@ function main() {
     const serverPort = getFreePort();
     console.log(serverPort);
 
-    const [command, documentRoot] = launchServerCommand(
+    const command = launchServerCommand(
         {
             serverType: "php",
             serverPort: serverPort,
@@ -27,6 +27,10 @@ function main() {
     );
 
     console.log("実行コマンド:" + command);
+
+    if (!command) {
+        return;
+    }
 
     browserpanecommand(
         {
@@ -43,59 +47,43 @@ function main() {
 
 function getFreePort() {
     const com = createobject(String.raw`${currentMacroDirectory}\HmFreePort.dll`, "HmFreePort.HmFreePort");
-    console.log(com);
-    if (com) {
-        return com.Port;
-    }
-
-    return 0;
+    return com ? com.Port : 0;
 }
 
 
-function launchServerCommand(props) {
+function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
-    let { serverType, serverPort, documentRoot } = props;
+    switch (serverType) {
+        case "php": {
 
-    try {
-        switch (serverType) {
-            case "php": {
-
-                // PHP 5.4 から無条件で使える。
-                let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
-                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
-                return [command, documentRoot];
-            }
-
-            case "python": {
-
-                // python 3.7 以上なら無条件で使える。( charset のデフォルうとがutf8じゃないので、日本人には扱いにくい。BOMをつければいけるが...)
-                let command = `python.exe -m http.server --bind localhost ${serverPort}`;
-                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
-                return [command, documentRoot];
-            }
-
-            case "node": {
-
-                // 「npm install -g http-server」をしていること。
-                // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
-                let workdir = documentRoot;
-                let oShell = createObject("WScript.Shell")
-                let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
-                let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" "${workdir}" -p ${serverPort}`;
-                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
-                return [command, documentRoot];
-            }
+            // PHP 5.4 から無条件で使える。
+            let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
         }
 
-        throw "未実装タイプ";
+        case "python": {
 
-    } catch (e) {
+            // python 3.7 以上なら無条件で使える。( charset のデフォルうとがutf8じゃないので、日本人には扱いにくい。BOMをつければいけるが...)
+            let command = `python.exe -m http.server --bind localhost ${serverPort}`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
 
-        console.log(e);
+        case "node": {
 
+            // 「npm install -g http-server」をしていること。
+            // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
+            let workdir = documentRoot;
+            let oShell = createObject("WScript.Shell")
+            let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
+            let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" "${workdir}" -p ${serverPort}`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
     }
 
-    return ["", ""];
+    return "";
 }
 
 
