@@ -1,6 +1,5 @@
 ﻿jsmode "WebView2\\" + currentmacrofilename;
 
-execjs currentmacrodirectory + "\\HmAvailablePort.js";
 
 js {
 
@@ -12,44 +11,41 @@ const currentMacroDirectory = currentmacrodirectory();
 
 main();
 
-var serverExeProcessInfo;
+var serverExeProcessInfo; // ローカルにすると、リファレンスカウンタが残ってても、いつのまにか途中でProcessInfoの中身消えるので注意ｗ
 
 function main() {
 
-    const port = getAvilablePort();
-    console.log(port);
 
+    serverExeProcessInfo?.kill();
 
-    if (typeof(serverExeProcessInfo) != "undefined") {
-        serverExeProcessInfo.kill();
-    }
+    const serverPort = getAvailablePort();
+    console.log(serverPort);
 
-    const [command, documentRoot] = createServerCommand(
-                                  {
-                                      serverType:"php",
-                                      port:port,
-                                      documentRoot:String.raw`G:\あいうえお`
-                                  }
-                                  );
-    serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+    const [command, documentRoot] = launchServerCommand(
+        {
+            serverType: "python",
+            serverPort: serverPort,
+            documentRoot: String.raw`G:\あいうえお`
+        }
+    );
 
-    console.log(command);
+    console.log("実行コマンド:" + command);
 
     browserpanecommand(
-    {
-        target: "_each", 
-        url:`http://localhost:${port}/index.html`,
-        show:1,
-        size: 500,
-        initialize:"async"
-    }
+        {
+            target: "_each",
+            url: `http://localhost:${serverPort}/index.html`,
+            show: 1,
+            size: 500,
+            initialize: "async"
+        }
     );
 
 }
 
 
-function getAvilablePort() {
-    const com = createobject( String.raw`${currentMacroDirectory}\HmAvailablePort.dll`, "HmAvailablePort.HmAvailablePort" );
+function getAvailablePort() {
+    const com = createobject(String.raw`${currentMacroDirectory}\HmAvailablePort.dll`, "HmAvailablePort.HmAvailablePort");
     console.log(com);
     if (com) {
         return com.Port;
@@ -59,45 +55,48 @@ function getAvilablePort() {
 }
 
 
-function createServerCommand(props) {
+function launchServerCommand(props) {
 
-    let {serverType, documentRoot, port} = props;
+    let { serverType, serverPort, documentRoot } = props;
+
 
     try {
-        switch(serverType)
-        {
-          case "php": {
+        switch (serverType) {
+            case "php": {
 
-            // PHP 5.4 から無条件で使える(PHPそのまま記載してよいので強力)
-            let command = `php.exe -S localhost:${port} -t "${documentRoot}"`;
-            return [command, documentRoot];
+                // PHP 5.4 から無条件で使える(PHPそのまま記載してよいので強力)
+                let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
+                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+                return [command, documentRoot];
 
-          }
+            }
 
-          case "python": {
+            case "python": {
 
-            // python 3.7 以上なら無条件で使える
-            let command = `python.exe -m http.server --bind localhost ${port}`;
-            return [command, documentRoot];
+                // python 3.7 以上なら無条件で使える
+                let command = `python.exe -m http.server --bind localhost ${serverPort}`;
+                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+                return [command, documentRoot];
 
-          }
+            }
 
-          case "node": {
+            case "node": {
 
-            // 「npm install -g http-server」をしていること
-            // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
-            let workdir = documentRoot;
-            let oShell = createObject("WScript.Shell")
-            let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
-            let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" "${workdir}" -p ${port}`;
-            return [command, documentRoot];
+                // 「npm install -g http-server」をしていること
+                // node の http-server 等は、バッチ.cmd を経由してしまうため、http-serverのjavascriptがある場所を直接指定する必要がある。
+                let workdir = documentRoot;
+                let oShell = createObject("WScript.Shell")
+                let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
+                let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" "${workdir}" -p ${serverPort}`;
+                serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+                return [command, documentRoot];
 
-          }
+            }
         }
 
         throw "未実装タイプ";
 
-    } catch(e) {
+    } catch (e) {
 
         console.log(e);
 
