@@ -21,11 +21,13 @@ function main() {
         return;
     }
 
+    const serverType = "php" ; // "php" もしくは "node" もしくは "python"(pythonはちょっと推奨しない)
+
     const command = launchServerCommand(
         {
-            serverType: "node",
-            serverPort: serverPort,
-            documentRoot: String.raw`C:\あいうえお2` // ドキュメントルートのフォルダ指定
+            serverType,
+            serverPort,
+            documentRoot: String.raw`C:\あいうえお` // ドキュメントルートのフォルダ指定
         }
     );
 
@@ -60,7 +62,7 @@ function getFreePort() {
 function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
     if (!existfile(documentRoot)) {
-        console.log(`エラー:${documentRoot}というフォルダは存在しない\r\n"`);
+        console.log(`エラー:「${documentRoot}」というフォルダは存在しない\r\n"`);
         return "";
     }
 
