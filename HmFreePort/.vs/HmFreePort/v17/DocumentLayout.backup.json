@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\repogitory\\hm_free_port\\HmFreePort\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmFreePort\\HmFreePort.csproj|g:\\repogitory\\hm_free_port\\hmfreeport\\hmfreeport\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmFreePort\\HmFreePort.csproj|solutionrelative:hmfreeport\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmFreePort\\HmFreePort.csproj|g:\\repogitory\\hm_free_port\\hmfreeport\\hmfreeport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E44DEEEF-A2B4-47B7-868C-0B1DD8C6F623}|HmFreePort\\HmFreePort.csproj|solutionrelative:hmfreeport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,7 +27,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,7 +35,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "G:\\repogitory\\hm_free_port\\HmFreePort\\HmFreePort\\Properties\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "HmFreePort\\Properties\\AssemblyInfo.cs",
+              "ToolTip": "G:\\repogitory\\hm_free_port\\HmFreePort\\HmFreePort\\Properties\\AssemblyInfo.cs",
+              "RelativeToolTip": "HmFreePort\\Properties\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvyAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T18:47:56.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "G:\\repogitory\\hm_available_port\\HmAvailablePort\\HmAvailablePort\\Program.cs",
               "RelativeDocumentMoniker": "..\\..\\hm_available_port\\HmAvailablePort\\HmAvailablePort\\Program.cs",
@@ -43,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\master\\source\\repos\\HmAvilablePort\\HmAvilablePort\\Program.cs",
               "ToolTip": "C:\\Users\\master\\source\\repos\\HmAvilablePort\\HmAvilablePort\\Program.cs",
@@ -52,20 +69,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "G:\\repogitory\\hm_free_port\\HmFreePort\\HmFreePort\\Program.cs",
               "RelativeDocumentMoniker": "HmFreePort\\Program.cs",
               "ToolTip": "G:\\repogitory\\hm_free_port\\HmFreePort\\HmFreePort\\Program.cs",
               "RelativeToolTip": "HmFreePort\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAYwDUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwDUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-19T02:41:24.707Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HmFreePort",
               "DocumentMoniker": "G:\\repogitory\\hm_free_port\\HmFreePort\\HmFreePort\\HmFreePort.csproj",
               "RelativeDocumentMoniker": "HmFreePort\\HmFreePort.csproj",
