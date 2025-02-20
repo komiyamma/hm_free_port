@@ -17,6 +17,9 @@ function main() {
 
     const serverPort = getFreePort();
     console.log(serverPort);
+    if (serverPort == 0) {
+        return;
+    }
 
     const command = launchServerCommand(
         {
@@ -46,7 +49,7 @@ function main() {
 
 }
 
-
+// 空いているポート番号を探す。(49152～65535以降)
 function getFreePort() {
     const com = createobject(String.raw`${currentMacroDirectory}\HmFreePort.dll`, "HmFreePort.HmFreePort");
     return com ? com.Port : 0;
@@ -69,13 +72,21 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "node": {
 
             // 「npm install -g http-server」をしていること。
-            // デフォルトだとコンテンツキャッシュが長いため、開発用途ならキャッシュなしにする。(-c-1の部分)
-            // 基本的にローカルで動作するならキャッシュなしで十分だと思う。
-            // １程度はキャッシュもたせたいなら、-c60 など。
+
             let workdir = documentRoot;
             let oShell = createObject("WScript.Shell")
             let appDataPath = oShell.ExpandEnvironmentStrings("%APPDATA%"); // 非同期なので getenv は使えない
-            let command = String.raw`node.exe "${appDataPath}\npm\node_modules\http-server\bin\http-server" -c-1 "${workdir}" -p ${serverPort}`;
+
+            // 食い違うようなら、「npm root -g」コマンドで場所を確認すること
+            let npmRootPath = "${appDataPath}\npm\node_modules";
+
+            // http-server を直接実行しても、それは バッチファイルなので、後でプロセスを片付けることが出来ない。
+            // なので、後で秀丸が自身で片付けられるように、node自体を実行する。
+
+            // デフォルトだとコンテンツキャッシュが長いため、開発用途ならキャッシュなしにする。(-c-1の部分)
+            // １程度はキャッシュもたせたいなら、-c60 など。
+            // 基本的にローカルで動作するならキャッシュなしで十分だと思う。
+            let command = String.raw`node.exe "${npmRootPath}\http-server\bin\http-server" -c-1 "${workdir}" -p ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
         }
