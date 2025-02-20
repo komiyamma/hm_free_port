@@ -44,6 +44,7 @@ namespace HmFreePort
                 }
                 catch (NetworkInformationException ex)
                 {
+                    // Console.WriteLine("ネットワーク接続中エラー");
                     return 0;
                 }
                 catch (Exception ex)
