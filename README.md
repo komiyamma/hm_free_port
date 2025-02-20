@@ -20,20 +20,20 @@ http://localhost:port の形で開く場合目的で利用する。
 ## なぜ http://localhost が必要になるの？ file:// ではダメなの？
 
 - 秀丸のブラウザ枠やレンダリング枠と、その制御は「URLが移ってしまう」ことに対しては弱い。  
-　よって基本的には「SPA(Single Page Application)」に寄せた作りになりやすい。  
-　(URLを変えずにDOMの一部を変えるような作り)  
+よって基本的には「SPA(Single Page Application)」に寄せた作りになりやすい。  
+(URLを変えずにDOMの一部を変えるような作り)  
 
-- ブラウザ用途の「素のJavaScript」を記述する人は相当に減少。  
-　これはCMSやSNS登場により、個人が「自身の力でサイトファイルを構築」といったことが無くなったことが大きな要因。  
+- ブラウザ用途の「素のJavaScript」を記述する人は相当に減少。
+これはCMSやSNS登場により、個人が「自身の力でサイトファイルを構築」といったことが無くなったことが大きな要因。  
  
 - Reactの登場もあり(VueやAngularも同様でしょうが)、SPAに寄せたフレームワークは、  
-  基本的には file:// 上では動作せず、http:// が想定されている。  
-　その動作は localhost が最も安定していることが期待できる(なぜならほぼ全ての人がlocalhost表示させながら作るから)  
+基本的には file:// 上では動作せず、http:// が想定されている。  
+その動作は localhost が最も安定していることが期待できる(なぜならほぼ全ての人がlocalhost表示させながら作るから)  
 
 - html/javascript部分は(素だろうがReactだろうが) Visual Studio Codeで作って、  
-　秀丸マクロからはビルドで出たindex.html を localhost:port の形で表示して、  
-　SPA的な該当のindex.html相手に情報やりとり。  
-　みたいになっていくんじゃないかなと。  
+秀丸マクロからはビルドで出たindex.html を localhost:port の形で表示して、  
+SPA的な該当のindex.html相手に情報やりとり。  
+みたいになっていくんじゃないかなと。  
 
 ## 身近にある簡易サーバーの例
 
