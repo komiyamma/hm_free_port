@@ -42,7 +42,7 @@ SPA的な該当のindex.html相手に情報やりとり。
 - node http-server  
 - python http.server (簡易すぎて、素で使うには利用価値が低い)  
 
-# 使用例や雰囲気
+# 使用した際のマクロの雰囲気
 
 https://github.com/komiyamma/hm_free_port/blob/main/HmFreePort/HmFreePort/bin/Release/HmFreePort.mac
 
