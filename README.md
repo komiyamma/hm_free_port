@@ -28,7 +28,8 @@ http://localhost:port の形で開く場合目的で利用する。
  
 - Reactの登場もあり(VueやAngularも同様でしょうが)、SPAに寄せたフレームワークは、  
 基本的には file:// 上では動作せず、http:// が想定されている。  
-その動作は localhost が最も安定していることが期待できる(なぜならほぼ全ての人がlocalhost表示させながら作るから)  
+その動作は localhost が最も安定していることが期待できる  
+(なぜならSPA系フレームワークでは、ほぼ全ての人がlocalhost表示させながら作るから)  
 
 - html/javascript部分は(素だろうがReactだろうが) Visual Studio Codeで作って、  
 秀丸マクロからはビルドで出たindex.html を localhost:port の形で表示して、  
