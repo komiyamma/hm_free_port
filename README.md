@@ -59,7 +59,7 @@ function getFreePort() {
 
 # hidemaru.runProcess と相性が良き
 
-- 「runProcess」+「IP」+「documentRoot」を使い簡易サーバーを立てる→プロセスＤ誕生
+- 「runProcess("stdio")」+「IP」+「documentRoot」を使い簡易サーバーを立てる→プロセスＤ誕生
 - 秀丸で開いてたファイルを閉じることでrunProcessがプロセスＤを閉じる(普通なら実行しっぱなしになりやすいデーモンが終了してくれる)
 
 になるので、比較的「jsmode・個別ブラウザ」仕組みやインスタンスのライフサイクルに乗りやすいかと。  
