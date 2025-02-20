@@ -31,8 +31,8 @@ http://localhost:port の形で開く場合目的で利用する。
 その動作は localhost が最も安定していると断言出来るほど  
 (なぜならSPA系フレームワークでは、ほぼ全ての人がlocalhost表示させながら作るから)  
 
-- html/javascript部分は(素だろうがReactだろうが) Visual Studio Codeで作って、  
-秀丸マクロからはビルドで出たindex.html を localhost:port の形で表示して、  
+- html/javascript部分は(素だろうがReactだろうが) Visual Studio Codeで作ってindex.htmlをビルド。 
+秀丸マクロからは、そのindex.html を localhost:port の形で表示して、  
 SPA的な該当のindex.html相手に情報やりとり。  
 みたいになっていくんじゃないかなと。  
 
