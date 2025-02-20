@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("HmAvilablePort")]
-[assembly: AssemblyCopyright("Copyright ©  2025")]
+[assembly: AssemblyCopyright("Creative Commons CC0 1.0 Universal Public Domain Dedication")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
