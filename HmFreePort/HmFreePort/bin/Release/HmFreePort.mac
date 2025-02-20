@@ -71,7 +71,8 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "php": {
 
             // PHP(php.exe, php8.dll, php.ini)さえあれば無条件で使えると考えてよい。
-            // 一番起動が速く、間違いがなく、キャッシュのなしで開発やローカル目的には適切、エンコードもデフォがutf8、安定感が抜群。.php ならPHPが動作するのもメリット。
+            // 一番起動が速く、間違いがなく、キャッシュのなしで開発やローカル目的には適切、エンコードもデフォがutf8、安定感が抜群。
+            // .php ならPHPが動作し、そのままサーバーサイドが動作するのも「PCのどこにあっても直接データ拾ってくればいいんだよ」な時に良き。
             let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
@@ -103,7 +104,8 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
             // python 3.7 以上なら無条件で使える。
             // charset のデフォルトがutf8じゃないので、日本人には扱いにくい。「HTMLのcharsetを設定(あるいはBOM)」したりも「CSSもJavaScriptもBOM」
-            // をつければいけるが、世界はこれらのファイルにBOM付ける文化になってないのでオススメできない
+            // をつければいけるが、世界はこれらのファイルにBOM付ける文化になってないのでオススメできない。
+            // 機能的のも貧弱でオススメできない。
             let command = `python.exe -m http.server --bind localhost ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
