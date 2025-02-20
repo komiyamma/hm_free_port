@@ -20,32 +20,39 @@ namespace HmFreePort
                 try
                 {
                     var ipGP = IPGlobalProperties.GetIPGlobalProperties();
-                    var usedPorts = ipGP.GetActiveTcpListeners()
-                        .Concat(ipGP.GetActiveUdpListeners())
-                        .Select(endpoint => endpoint.Port)
-                        .Distinct();
+                    if (ipGP == null)
+                    {
+                        // Console.WriteLine("IPGlobalPropertiesの取得に失敗しました。");
+                        return 0;
+                    }
+
+                    var usedPorts = new HashSet<int>(ipGP.GetActiveTcpListeners()
+                                                      .Concat(ipGP.GetActiveUdpListeners())
+                                                      .Select(endpoint => endpoint.Port));
 
                     for (int port = 49152; port <= 65535; port++)
                     {
                         if (!usedPorts.Contains(port))
                         {
-                            return port; // 空いているポートを見つけた場合
+                            // Console.WriteLine($"利用可能なポートが見つかりました: {port}");
+                            return port;
                         }
                     }
-                }
-                catch (Exception)
-                {
-                }
 
-                return 0; // 空きポートが見つからない場合
+                    // Console.WriteLine("利用可能なポートが見つかりませんでした。");
+                    return 0;
+                }
+                catch (NetworkInformationException ex)
+                {
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    // Console.WriteLine("なんか知らんがエラー");
+                    return 0;
+                }
             }
         }
-
-        public int GetAvailablePort()
-        {
-            return Port;
-        }
-
 
         static int Main(string[] args)
         {
