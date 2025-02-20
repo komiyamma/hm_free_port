@@ -52,7 +52,7 @@ function main() {
 
 }
 
-// 空いているポート番号を探す。(49152～65535以降)
+// 空いているポート番号を探す。(49152～65535)
 function getFreePort() {
     const com = createobject(String.raw`${currentMacroDirectory}\HmFreePort.dll`, "HmFreePort.HmFreePort");
     return com ? com.Port : 0;
