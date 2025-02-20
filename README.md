@@ -14,7 +14,7 @@ https://github.com/komiyamma/hm_free_port/blob/main/HmFreePort/CPP.ver/Program.c
 # どのような目的で使うのだろう？
 
 多くの場合は、「個別ブラウザ枠」や「レンダリング枠」の「urlプロパティ」に、  
-http://localhost:port の形で開く場合目的で利用する。  
+http://localhost:port の形で開く目的で利用する。  
 開くためには何らかのサーバーが必要で「その簡易サーバーを立てる」ために利用するかと思います。  
 
 ## なぜ http://localhost が必要になるの？ file:// ではダメなの？
