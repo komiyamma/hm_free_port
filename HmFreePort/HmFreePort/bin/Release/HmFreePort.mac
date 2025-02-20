@@ -25,13 +25,14 @@ function main() {
         {
             serverType: "node",
             serverPort: serverPort,
-            documentRoot: String.raw`C:\あいうえお` // ドキュメントルートのフォルダ指定
+            documentRoot: String.raw`C:\あいうえお2` // ドキュメントルートのフォルダ指定
         }
     );
 
     console.log("実行コマンド:" + command);
 
     if (!command) {
+        console.log("エラー:実行コマンドが構築できていない");
         return;
     }
 
@@ -58,6 +59,11 @@ function getFreePort() {
 
 function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
+    if (!existfile(documentRoot)) {
+        console.log(`エラー:${documentRoot}というフォルダは存在しない\r\n"`);
+        return "";
+    }
+
     switch (serverType) {
 
         case "php": {
@@ -72,18 +78,17 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "node": {
 
             // nodeはデフォルトではサーバー用コマンドがない。「npm install -g http-server」をコンソールにて実行していること。
+            // 食い違うようなら、「npm root -g」コマンドで場所を確認すること
 
             let appDataPath = getenv("APPDATA");
-
-            // 食い違うようなら、「npm root -g」コマンドで場所を確認すること
             let npmRootPath = String.raw`${appDataPath}\npm\node_modules`;
 
-            // http-server を直接実行しても、それは バッチファイルなので、後でプロセスを片付けることが出来ない。
-            // なので、後で秀丸が自身で片付けられるように、node自体を実行する。
+            // 「http-server」コマンドをrunProcess直接実行した場合、「http-server.cmd」というバッチファイルなので、後でそのバッチから起動されたnodeプロセスを片付けることが出来ない。
+            // なので、「後で秀丸が自身で片付けられるように」、nodeを直接実行する。
 
             // デフォルトだとコンテンツキャッシュが長いため、開発用途ならキャッシュなしにする。(-c-1の部分)
             // １程度はキャッシュもたせたいなら、-c60 など。
-            // 基本的にローカルで動作するならキャッシュなしで十分だと思う。
+            // 基本的にローカルで動作させる歳はキャッシュなしで十分だと思う。
             let command = String.raw`node.exe "${npmRootPath}\http-server\bin\http-server" -c-1 "${documentRoot}" -p ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
             return command;
@@ -92,7 +97,7 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
         case "python": {
 
             // python 3.7 以上なら無条件で使える。
-            // charset のデフォルトがutf8じゃないので、日本人(英語圏以外の人)には扱いにくい。「HTMLのcharsetを設定(あるいはBOM)」したりも「CSSもJavaScriptもBOM」
+            // charset のデフォルトがutf8じゃないので、日本人には扱いにくい。「HTMLのcharsetを設定(あるいはBOM)」したりも「CSSもJavaScriptもBOM」
             // をつければいけるが、世界はこれらのファイルにBOM付ける文化になってないのでオススメできない
             let command = `python.exe -m http.server --bind localhost ${serverPort}`;
             serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
