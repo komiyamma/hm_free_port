@@ -79,17 +79,19 @@ function launchServerCommand({ serverType, serverPort, documentRoot }) {
 
         case "node": {
 
-            // nodeはデフォルトではサーバー用コマンドがない。「npm install -g http-server」をnode文化ではコンソールにて実行することで簡易サーバーゲットが主流な模様。
+            // nodeはデフォルトではサーバー用コマンドがない。コマンドラインで一度「npm install -g http-server」として、n
+            // 簡易サーバーをコマンドを使えるようにすうるのが主流な模様。
 
             let appDataPath = getenv("APPDATA");
             let npmRootPath = String.raw`${appDataPath}\npm\node_modules`;
 
-            // 「http-server」コマンドをrunProcess直接実行した場合、「http-server.cmd」というバッチファイルなので、後でそのバッチから起動されたnodeプロセスを片付けることが出来ない。
+            // 「http-server」コマンドをrunProcess直接実行した場合、その実態はexeではなく「http-server.cmd」というバッチファイル。
+            // そこから、「node ****/http-server ****」という形で起動する。これでは秀丸はrunProcessを終えた後、このデーモンを回収できない。
             // なので、「後で秀丸が自身で片付けられるように」、nodeを直接実行する。
-            // 問題は「http-server」の場所だが、以下のような場所であることがほとんどだろう。
+            // 以下のような配置場所であることがほとんどだろう。
             // ただし、変更することも一応可能なので、食い違うようなら、「npm root -g」もしくは「where http-server」コマンドで場所を確認すること
 
-            // デフォルトだとコンテンツキャッシュが長いため、開発用途ならキャッシュなしにする。(-c-1の部分)
+            // デフォルトだとコンテンツキャッシュが長いため、「開発用途ならキャッシュなし」にする。(-c-1の部分)
             // １分程度はキャッシュもたせたいなら、-c60 など。
             // 基本的にローカルで動作させる歳はキャッシュなしで十分だと思う。
             let command = String.raw`node.exe "${npmRootPath}\http-server\bin\http-server" -c-1 "${documentRoot}" -p ${serverPort}`;
