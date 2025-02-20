@@ -1,10 +1,8 @@
 ﻿# getFreePort() 的な関数を提供しては？ という案。
 
-createHttpServer や createSocketServer のインスタンスを作る際、
-「空きポート」を探して、空いてたらそれを使う（ことを試みる）と
-思いますが、この空いてるポートを得る、という関数を提供しては？
+「空きポート」得る、という関数を提供しては？ という案。
 
-という案。
+> createHttpServer や createSocketServer の作成ですでに実装しておるのでは？
 
 # どのようなもの？
 
