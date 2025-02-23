@@ -18,3 +18,5 @@
 - node http-server  
 - python http.server (簡易すぎて、素で使うには利用価値が低い)  
 
+https://秀丸マクロ.net/?page=nobu_tool_hm_free_port
+
