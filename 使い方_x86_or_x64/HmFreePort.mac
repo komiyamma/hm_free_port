@@ -1,0 +1,131 @@
+﻿jsmode "WebView2\\" + currentmacrofilename;
+
+
+js {
+
+debuginfo(2);
+
+const currentMacroDirectory = currentmacrodirectory();
+const hidemaruMacroDirectory = macrodir();
+
+main();
+
+var serverExeProcessInfo; // ローカルにすると、serverExeProcessInfo自体のリファレンスカウンタが残らなので、ProcessInfoの中身が中途半端に消えるので注意ｗ
+
+function main() {
+
+    serverExeProcessInfo?.kill(); // 実はPort自体が no-cacheを兼ねることが出来るので、ユーザーのマクロのレベルだと、あえてkillしない方がいいかも？ 
+
+    const serverPort = getFreePort();
+    console.log(serverPort);
+    if (serverPort == 0) {
+        return;
+    }
+
+    const serverType = "php" ; // "php" もしくは "node" もしくは "python"(pythonはちょっと推奨しない)
+
+    const command = launchServerCommand(
+        {
+            serverType,
+            serverPort,
+            documentRoot: String.raw`C:\あいうえお` // ドキュメントルートのフォルダ指定
+        }
+    );
+
+    console.log("実行コマンド:" + command);
+
+    if (!command) {
+        console.log("エラー:実行コマンドが構築できていない");
+        return;
+    }
+
+   
+    browserpanecommand(
+        {
+            target: "_each",
+            url: `http://localhost:${serverPort}/index.html`, 
+            show: 1,
+            watch: true,
+            size: 500,
+            initialize: "async"
+        }
+    );
+
+}
+
+// 空いているポート番号を探す。(49152～65535)
+function getFreePort() {
+    // platform() 関数が非同期ではないので、実際読めるかどうかトライしてしまう方がよいだろう。
+    let dll = null;
+    if (!dll) { dll = loaddll(String.raw`${hidemaruMacroDirectory}\HmFreePort\HmFreePort_x64.dll`); }
+    if (!dll) { dll = loaddll(String.raw`${currentMacroDirectory}\HmFreePort_x64.dll`); }
+    if (!dll) { dll = loaddll(String.raw`${hidemaruMacroDirectory}\HmFreePort\HmFreePort_x86.dll`); }
+    if (!dll) { dll = loaddll(String.raw`${currentMacroDirectory}\HmFreePort_x86.dll`); }
+    if (dll) { 
+        return dll.GetFreePort();
+    }
+    return 0;
+}
+
+
+
+function launchServerCommand({ serverType, serverPort, documentRoot }) {
+
+    if (!existfile(documentRoot)) {
+        console.log(`エラー:「${documentRoot}」というフォルダは存在しない\r\n"`);
+        return "";
+    }
+
+    switch (serverType) {
+
+        case "php": {
+
+            // PHP(php.exe, php8.dll, php.ini)さえあれば無条件で使えると考えてよい。
+            // 一番起動が速く、間違いがなく、キャッシュのなしで開発やローカル目的には適切、エンコードもデフォがutf8、安定感が抜群。
+            // .php ならPHPが動作し、そのままサーバーサイドが動作するのも「PCのどこにあっても直接データ拾ってくればいいんだよ」な時に良き。
+            let command = `php.exe -S localhost:${serverPort} -t "${documentRoot}"`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
+
+        case "node": {
+
+            // nodeはデフォルトではサーバー用コマンドがない。コマンドラインで一度「npm install -g http-server」として、n
+            // 簡易サーバーをコマンドを使えるようにすうるのが主流な模様。
+
+            let appDataPath = getenv("APPDATA");
+            let npmRootPath = String.raw`${appDataPath}\npm\node_modules`;
+
+            // 「http-server」コマンドをrunProcess直接実行した場合、その実態はexeではなく「http-server.cmd」というバッチファイル。
+            // そこから、「node ****/http-server ****」という形で起動する。これでは秀丸はrunProcessを終えた後、このデーモンを回収できない。
+            // なので、「後で秀丸が自身で片付けられるように」、nodeを直接実行する。
+            // 以下のような配置場所であることがほとんどだろう。
+            // ただし、変更することも一応可能なので、食い違うようなら、「npm root -g」もしくは「where http-server」コマンドで場所を確認すること
+
+            // デフォルトだとコンテンツキャッシュが長いため、「開発用途ならキャッシュなし」にする。(-c-1の部分)
+            // １分程度はキャッシュもたせたいなら、-c60 など。
+            // 基本的にローカルで動作させる歳はキャッシュなしで十分だと思う。
+            let command = String.raw`node.exe "${npmRootPath}\http-server\bin\http-server" -c-1 "${documentRoot}" -p ${serverPort}`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
+
+        case "python": {
+
+            // python 3.7 以上なら無条件で使える。
+            // charset のデフォルトがutf8じゃないので、日本人には扱いにくい。「HTMLのcharsetを設定(あるいはBOM)」したりも「CSSもJavaScriptもBOM」
+            // をつければいけるが、世界はこれらのファイルにBOM付ける文化になってないのでオススメできない。
+            // 機能的のも貧弱でオススメできない。
+            let command = `python.exe -m http.server --bind localhost ${serverPort}`;
+            serverExeProcessInfo = hidemaru.runProcess(command, documentRoot, "stdio", "utf8");
+            return command;
+        }
+
+    }
+
+    return "";
+}
+
+
+
+}
