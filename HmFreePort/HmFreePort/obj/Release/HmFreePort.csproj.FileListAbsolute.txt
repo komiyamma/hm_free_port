@@ -1,0 +1,5 @@
+G:\repogitory\hm_free_port\HmFreePort\HmFreePort\bin\Release\HmFreePort.dll.config
+G:\repogitory\hm_free_port\HmFreePort\HmFreePort\bin\Release\HmFreePort.dll
+G:\repogitory\hm_free_port\HmFreePort\HmFreePort\obj\Release\HmFreePort.csproj.AssemblyReference.cache
+G:\repogitory\hm_free_port\HmFreePort\HmFreePort\obj\Release\HmFreePort.csproj.CoreCompileInputs.cache
+G:\repogitory\hm_free_port\HmFreePort\HmFreePort\obj\Release\HmFreePort.dll
